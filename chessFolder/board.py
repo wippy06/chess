@@ -6,8 +6,7 @@ class Board:
     def __init__(self):
         self.board = chess.Board()
         self.board2D = self.convert_to_2d()
-
-        self.draw()
+        self.pieceList = ["r","n","b","q","k","p","R","N","B","Q","K","P"]
     
     def convert_to_2d(self):
         board_str = str(self.board).replace(" ","").replace("\n","")
@@ -32,6 +31,9 @@ class Board:
 
     def draw(self,win):
         self.draw_squares(win)
+        for piece in self.get_numPieces(x):
+            row,col = piece
+            #win.blit(Image, (size-x,size-y)
         # get chess board
         # create if and elif stuff
         #draw board
@@ -76,3 +78,30 @@ class Board:
                 if self.board2D[x][y] == type:
                     list_of_cords.append((x,y))
         print(list_of_cords)
+
+    def is_piece(self, row,col):
+        isPiece = False
+        colour = False
+        if self.board2D[row][col] != ".":
+            isPiece = True
+            if self.board2D[row][col].islower():
+                colour = False
+            else:
+                colour = True
+
+        #returns if there is a piece and what colour that piece is
+        return [isPiece, colour]
+
+    def get_turn(self):
+        #true is white
+        #false is black
+        return self.board.turn
+    
+    def get_move(self, square, valid_moves):
+        #only takes co-ordinate for square
+        move = None
+        for x in valid_moves:
+            if str(x)[2] == square[0] and str(x)[3] == square[1]:
+                move = x
+                break
+        return move
