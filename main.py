@@ -43,7 +43,7 @@ def main():
 
         if game.board.get_turn() == PLAYER and AI_VS_AI and AI_ON:
             new_board = minimax(game.get_board(), DEPTH, False, float("-inf"), float("inf"), WEIGHT1)
-            game.ai_move(new_board[1])  
+            game.ai_move(new_board[1])
         
         if game.winner()!=None:
             print(game.winner())
