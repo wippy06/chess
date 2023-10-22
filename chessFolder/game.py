@@ -1,5 +1,5 @@
 import pygame
-from .constants import WHITE, BLACK, BLUE, SQUARE_SIZE
+from .constants import BLUE, SQUARE_SIZE
 from .board import Board
 
 class Game:
@@ -19,9 +19,6 @@ class Game:
 
     def winner(self):
         return self.board.winner()
-
-    def reset(self):
-        self._init()
 
     def select(self, square, row, col):
         #if something is selected try to move unless selection is invalid
@@ -56,6 +53,16 @@ class Game:
                 row = 8 - int(str(move)[3])
                 col = ord(str(move)[2])-97
                 pygame.draw.circle(self.win, BLUE, (col * SQUARE_SIZE + SQUARE_SIZE//2, row * SQUARE_SIZE + SQUARE_SIZE//2), 15)
+
+    def get_board(self):
+        return self.board
+
+    def ai_move(self,board):
+        if self.board.board != board.board:
+            self.board = board
+            return True
+        else:
+            return False
 
 
     

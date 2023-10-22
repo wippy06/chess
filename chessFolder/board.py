@@ -1,12 +1,13 @@
 import pygame
 import chess
-from .constants import BROWN, ROWS, BEIGE, SQUARE_SIZE, COLS, BLACK, WHITE
+from .constants import BROWN, ROWS, BEIGE, SQUARE_SIZE, AI, BLACK
 
 class Board:
     def __init__(self):
         self.board = chess.Board()
         self.board2D = self.convert_to_2d()
-        self.pieceList = ["r","n","b","q","k","p","R","N","B","Q","K","P"]
+        self.pieceListWhite = ["R","N","B","Q","K","P"]
+        self.pieceListBlack = ["r","n","b","q","k","p"]
     
     def convert_to_2d(self):
         board_str = str(self.board).replace(" ","").replace("\n","")
@@ -32,7 +33,7 @@ class Board:
     def draw(self,win):
         self.draw_squares(win)
 
-        for x in self.pieceList:
+        for x in [*self.pieceListWhite, *self.pieceListBlack]:
             if x.isupper():
                 y="_"
             else:
@@ -40,11 +41,7 @@ class Board:
             directory = "chessFolder/assets/{}{}.png".format(y,x)
             for piece in self.get_numPieces(x):
                 row,col = piece
-                win.blit(pygame.transform.scale(pygame.image.load(directory),(80,80)), (col*SQUARE_SIZE+10,row*SQUARE_SIZE+10))
-        # get chess board
-        # create if and elif stuff
-        #draw board
-    
+                win.blit(pygame.transform.scale(pygame.image.load(directory),(80,80)), (col*SQUARE_SIZE+10,row*SQUARE_SIZE+10))   
 
     def winner(self):
         if self.board.result() != "*":
@@ -112,3 +109,24 @@ class Board:
                 move = x
                 break
         return move
+    
+    def evaluate(self, weight):
+        piecedif = 0
+        if AI == BLACK:  
+            for x in self.pieceListBlack:
+                piecedif += len(self.get_numPieces(x))
+            for y in self.pieceListWhite:
+                piecedif -= len(self.get_numPieces(y))
+
+        else:
+            for x in self.pieceListBlack:
+                piecedif -= len(self.get_numPieces(x))
+            for y in self.pieceListWhite:
+                piecedif += len(self.get_numPieces(y))
+        print(piecedif)
+        return piecedif
+
+
+
+    def piece_square_table(type):
+        pass
