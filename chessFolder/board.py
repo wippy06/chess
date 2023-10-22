@@ -31,16 +31,23 @@ class Board:
 
     def draw(self,win):
         self.draw_squares(win)
-        for piece in self.get_numPieces(x):
-            row,col = piece
-            #win.blit(Image, (size-x,size-y)
+
+        for x in self.pieceList:
+            if x.isupper():
+                y="_"
+            else:
+                y=""
+            directory = "chessFolder/assets/{}{}.png".format(y,x)
+            for piece in self.get_numPieces(x):
+                row,col = piece
+                win.blit(pygame.transform.scale(pygame.image.load(directory),(80,80)), (col*SQUARE_SIZE+10,row*SQUARE_SIZE+10))
         # get chess board
         # create if and elif stuff
         #draw board
-        pass     
+    
 
     def winner(self):
-        if self.board.result():
+        if self.board.result() != "*":
             if self.board.is_checkmate():
                 if self.board.result() == "1-0":
                     return "white wins"
@@ -73,11 +80,11 @@ class Board:
     def get_numPieces(self, type):
         #type is piece representation eg "p" for black pawn
         list_of_cords = []
-        for x in range(len(self.board2D)):
-            for y in range(len(self.board2D[x])):
-                if self.board2D[x][y] == type:
-                    list_of_cords.append((x,y))
-        print(list_of_cords)
+        for row in range(len(self.board2D)):
+            for col in range(len(self.board2D[row])):
+                if self.board2D[row][col] == type:
+                    list_of_cords.append((row,col))
+        return list_of_cords
 
     def is_piece(self, row,col):
         isPiece = False
