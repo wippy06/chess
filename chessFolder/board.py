@@ -1,7 +1,7 @@
 import pygame
 import chess
 from .constants import BROWN, ROWS, BEIGE, SQUARE_SIZE, AI, BLACK, WEIGHT0
-from .eval_constants import*
+from minimax.evaluate import evaluate
 
 class Board:
     def __init__(self):
@@ -66,7 +66,6 @@ class Board:
         return moves
     
     def get_piece_valid_moves(self, square):
-        print(self.evaluate(WEIGHT0))
         #only takes co-ordinate for square
         allMoves = self.get_all_valid_moves()
         moves = []
@@ -84,6 +83,14 @@ class Board:
                 if self.board2D[row][col] == type:
                     list_of_cords.append([row,col])
         return list_of_cords
+    
+    def get_num_all_pieces(self):
+        num = 0
+        for row in range(len(self.board2D)):
+            for col in range(len(self.board2D[row])):
+                if self.board2D[row][col] != "." or self.board2D[row][col] != "p" or self.board2D[row][col] != "P" or self.board2D[row][col] != "k" or self.board2D[row][col] != "K":
+                    num+=1
+        return num
 
     def is_piece(self, row,col):
         isPiece = False
@@ -113,160 +120,5 @@ class Board:
         return move
     
     def evaluate(self, weight):
-
-        pawnAttack = self.p_attack_black()-self.p_attack_white()
-
-        pieceSquareTable = 0
-        for x in self.pieceListBlack:
-            pieceSquareTable += self.piece_square_table(x)
-        for x in self.pieceListWhite:
-            pieceSquareTable -= self.piece_square_table(x)
-
-        pieceValue = 0
-        for x in self.pieceListBlack:
-            if x == "k":
-                continue
-            pieceValue += self.piece_value(x)
-
-
-        for x in self.pieceListWhite:
-            if x == "K":
-                continue
-            pieceValue -= self.piece_value(x)
-        
-        result = 0
-        if self.winner() == "white wins":
-            result = -999999999999999999999999999
-        elif self.winner() == "black wins":
-            result = 999999999999999999999999999
-        elif self.winner() == "draw":
-            if pieceValue*weight[0] + pieceSquareTable*weight[1] + pawnAttack*weight[2] > 0:
-                result = -300
-            else:
-                result = 300
-
-        return pieceValue*weight[0] + pieceSquareTable*weight[1] + pawnAttack*weight[2] + result
-
-    def piece_square_table(self, type):
-
-        pieces = self.get_numPieces(type)
-
-        if type == "R":
-            type =  rookEvalWhite   
-        elif type == "N":
-            type =  knightEval
-        elif type == "B":
-            type =  bishopEvalWhite
-        elif type == "Q":
-            type =  queenEval
-        elif type == "K":
-            type =  kingEvalWhite
-        elif type == "P":
-            type =  pawnEvalWhite
-        elif type == "r":
-            type =  rookEvalBlack
-        elif type == "n":
-            type =  knightEval
-        elif type == "b":
-            type =  bishopEvalBlack
-        elif type == "q":
-            type =  queenEval
-        elif type == "k":
-            type =  kingEvalBlack
-        elif type == "p":
-            type = pawnEvalBlack
-        elif type == "k_end":
-            type =  kingEvalEndGameBlack
-        else:
-            type =  kingEvalEndGameWhite
-        
-        value = 0
-        for x in pieces:
-            value += type[x[0]][x[1]]
-
-        return value
-    
-    def piece_value(self, type):
-
-        pieces = self.get_numPieces(type)
-
-        if type == "R" or type == "r":
-            type =  rookValue
-        elif type == "N" or type == "n":
-            type =  knightValue
-        elif type == "B" or type == "b":
-            type =  bishopValue
-        elif type == "Q" or type == "q":
-            type =  queenValue
-        else:
-            type = pawnValue
-        
-        return len(pieces)*type
-
-    def p_attack_black(self):
-        attacked = self.get_numPieces("P")
-        value = 0
-        catch = False
-        for x in attacked:
-            x = [x[0]-1, x[1]+1]
-            if x[1]==8:
-                x[1] = x[1]-2
-            if x in self.get_numPieces("r"):
-                value -= 250
-            if x in self.get_numPieces("q"):
-                value -= 450
-            if x in self.get_numPieces("b"):
-                value -= 160
-            if x in self.get_numPieces("n"):
-                value -= 150
-            if catch:
-                continue
-            x = [x[0], x[1]-2]    
-            if x[1]==-1:
-                x[1] = 1       
-            if x in self.get_numPieces("r"):
-                value -= 250
-            if x in self.get_numPieces("q"):
-                value -= 450
-            if x in self.get_numPieces("b"):
-                value -= 160
-            if x in self.get_numPieces("n"):
-                value -= 150
-
-
-        return value
-    
-    def p_attack_white(self):
-        attacked = self.get_numPieces("p")
-        value = 0
-        catch = False
-        for x in attacked:
-            x = [x[0]+1, x[1]+1]
-            if x[1]==8:
-                x[1] = x[1]-2
-                catch == True
-            if x in self.get_numPieces("R"):
-                value -= 250
-            if x in self.get_numPieces("Q"):
-                value -= 450
-            if x in self.get_numPieces("B"):
-                value -= 160
-            if x in self.get_numPieces("N"):
-                value -= 150
-            if catch:
-                continue
-            x = [x[0], x[1]-2]
-            if x[1]==-1:
-                x[1] = 1
-            if x in self.get_numPieces("R"):
-                value -= 250
-            if x in self.get_numPieces("Q"):
-                value -= 450
-            if x in self.get_numPieces("B"):
-                value -= 160
-            if x in self.get_numPieces("N"):
-                value -= 150
-
-        return value
-
+        return evaluate(weight, self)
             

@@ -25,5 +25,5 @@ PLAYER = WHITE
 DEPTH = 3
 
     #weights to calculate eval, 0 is AI, 1 is Player AI
-WEIGHT0 = [1, 1, 0.5]
+WEIGHT0 = [10, 1, 1]
 WEIGHT1 = [1, 1]

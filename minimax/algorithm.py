@@ -24,7 +24,8 @@ def minimax(position, depth, max_player, alpha, beta, weight):
 
             alpha = max( alpha, maxEval)
             if beta <= alpha:
-                break
+                pass
+                #break
 
         return maxEval, best_move
     
@@ -40,7 +41,8 @@ def minimax(position, depth, max_player, alpha, beta, weight):
             
             beta = min( beta, minEval)
             if beta <= alpha:
-                break    
+                pass
+                #break    
 
         return minEval, best_move
 
@@ -51,6 +53,7 @@ def simulate_move(move, board):
 
 def get_all_moves(board, max_player):
     moves = []
+    moveRate0 = []
     moveRate1 = []
     moveRate2 = []
     moveRate3 = []
@@ -62,17 +65,19 @@ def get_all_moves(board, max_player):
         temp_board = deepcopy(board)
         new_board = simulate_move(move, temp_board)
 
-        if move.promotion:
+        if board.board.is_checkmate():
+            moveRate0.append(new_board)
+        elif move.promotion:
             moveRate1.append(new_board)
-        elif board.board.is_castling(move):
-            moveRate2.append(new_board)
         elif board.board.gives_check(move):
-            moveRate3.append(new_board)
+            moveRate2.append(new_board)
         elif board.board.is_capture(move):
+            moveRate3.append(new_board)
+        elif board.board.is_castling(move):
             moveRate4.append(new_board)
         else:
             moveRate5.append(new_board)
-    moves = [*moveRate1, *moveRate2, *moveRate3, *moveRate4, *moveRate5]
+    moves = [*moveRate0, *moveRate1, *moveRate2, *moveRate3, *moveRate4, *moveRate5]
 
     return moves
 
