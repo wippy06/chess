@@ -23,18 +23,19 @@ def evaluate(weight, board):
         pieceValue -= piece_value(board,x)
     
     result = 0
-    #print(2,board.winner())
+    resultMult = 1
+
     if board.winner() == "white wins":
         result = -999999999999999999999999999
+        resultMult = 1
     elif board.winner() == "black wins":
         result = 999999999999999999999999999
+        resultMult = 1
     elif board.winner() == "draw":
-        if pieceValue*weight[0] + pieceSquareTable*weight[1] + pawnAttack*weight[2] > 0:
-            result = -300
-        else:
-            result = 300
+        result = 0
+        resultMult = 0
 
-    return pieceValue*weight[0] + pieceSquareTable*weight[1] + pawnAttack*weight[2] + result
+    return (pieceValue*weight[0] + pieceSquareTable*weight[1] + pawnAttack*weight[2] + result)*resultMult
 
 def piece_square_table(board, type):
 
@@ -160,7 +161,6 @@ def p_attack_white(board):
         if x in board.get_numPieces("N"):
             value -= 150
 
-    #print(1,board.get_turn())
     if board.get_turn():
         return 0
     else:

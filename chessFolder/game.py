@@ -4,18 +4,15 @@ from .board import Board
 
 class Game:
     def __init__(self,win):
-        self._init()
         self.win = win
+        self.selected = None
+        self.board = Board()
+        self.valid_moves = []
 
     def update(self):
         self.board.draw(self.win)
         self.draw_valid_moves(self.valid_moves)
-        pygame.display.update()
-
-    def _init(self):
-        self.selected = None
-        self.board = Board()
-        self.valid_moves = []
+        pygame.display.update()      
 
     def winner(self):
         return self.board.winner()
