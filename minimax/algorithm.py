@@ -1,5 +1,5 @@
 from copy import deepcopy
-
+'''
 def minimax(position, depth, max_player, alpha, beta, weight):
     #position is an object
     #depth is an int to show how far to go
@@ -21,7 +21,7 @@ def minimax(position, depth, max_player, alpha, beta, weight):
             if maxEval == evaluation:
                 best_move = move
 
-            alpha = max( alpha, maxEval)
+            alpha = max(alpha, maxEval)
             if beta <= alpha:
                 #pass
                 break
@@ -38,7 +38,7 @@ def minimax(position, depth, max_player, alpha, beta, weight):
             if minEval == evaluation:
                 best_move = move  
             
-            beta = min( beta, minEval)
+            beta = min(beta, minEval)
             if beta <= alpha:
                 #pass
                 break    
@@ -47,7 +47,6 @@ def minimax(position, depth, max_player, alpha, beta, weight):
 
 def simulate_move(move, board):
     board.move(move)
-
     return board
 
 def get_all_moves(board, max_player):
@@ -119,13 +118,13 @@ def minimax(position, depth, weight):
 
     moves = get_all_moves(position)
     for move in moves:
-        position.board.push_san("{}".format(move))
+        position.move("{}".format(move))
         evaluation = -1 * (minimax(position, depth-1, weight).evaluate(weight))
         bestEval = max(bestEval, evaluation)
         if bestEval == evaluation:
             bestPos = deepcopy(position)
-        position.board.pop()
+            print(position.board)
+        position.unmove()
 
     return bestPos
-'''
 

@@ -34,7 +34,7 @@ def main():
  
     while run:
         clock.tick(FPS)
-
+        '''
         if game.board.get_turn() == AI and AI_ON:
             new_board = minimax(game.get_board(), DEPTH, True, float("-inf"), float("inf"), WEIGHT0)
             game.ai_move(new_board[1])
@@ -46,7 +46,20 @@ def main():
             game.ai_move(new_board[1])
 
         game.update()
+        '''
 
+        if game.board.get_turn() == AI and AI_ON:
+            new_board = minimax(game.get_board(), DEPTH, WEIGHT0)
+            game.ai_move(new_board)
+
+        game.update()
+
+        if game.board.get_turn() == PLAYER and AI_VS_AI and AI_ON:
+            new_board = minimax(game.get_board(), DEPTH,WEIGHT1)
+            game.ai_move(new_board)
+
+        game.update()
+        
         if game.winner()!=None:
             print(game.winner())
 

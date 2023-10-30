@@ -31,6 +31,10 @@ class Board:
         self.board.push_san("{}".format(move))
         self.board2D = self.convert_to_2d()
 
+    def unmove(self):
+        self.board.pop()
+        self.board2D = self.convert_to_2d()
+
     def draw(self,win):
         self.draw_squares(win)
 
