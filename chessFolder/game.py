@@ -20,7 +20,7 @@ class Game:
     def select(self, square, row, col):
         #if something is selected try to move unless selection is invalid
         if self.selected:
-            result = self._move(square,row,col)
+            result = self._move(square)
             if not result:
                 self.selected=None
                 self.select(square, row, col)
@@ -34,7 +34,7 @@ class Game:
         
         return False
 
-    def _move(self,square,row,col):
+    def _move(self,square):
         move = self.board.get_move(square, self.valid_moves)
         if self.selected and move in self.valid_moves:
             self.board.move(move)

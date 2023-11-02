@@ -32,7 +32,6 @@ def evaluate(weight, board):
         result = 999999999999999999999999999
         resultMult = 1
     elif board.winner() == "draw":
-        result = 0
         resultMult = 0
 
     return (pieceValue*weight[0] + pieceSquareTable*weight[1] + pawnAttack*weight[2] + result)*resultMult

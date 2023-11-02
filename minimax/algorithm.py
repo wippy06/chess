@@ -77,7 +77,7 @@ def get_all_moves(board, max_player):
     return moves
 
 '''
-#does not work also super slow
+#works not but still super slow, want to get rid of deepcopy
 
 def get_all_moves(board):
     moves = []
@@ -108,23 +108,48 @@ def get_all_moves(board):
     return moves
 
 
-def minimax(position, depth, weight):
+def minimax(position, depth, weight, maxPlayer, alpha, beta):
+
+    if position.board.is_check()and depth == 0:
+        depth += 1
 
     if depth == 0 or position.winner() != None:
         return position
 
     bestPos = None
-    bestEval = float("-inf")
 
-    moves = get_all_moves(position)
-    for move in moves:
-        position.move("{}".format(move))
-        evaluation = -1 * (minimax(position, depth-1, weight).evaluate(weight))
-        bestEval = max(bestEval, evaluation)
-        if bestEval == evaluation:
-            bestPos = deepcopy(position)
-            print(position.board)
-        position.unmove()
+    if maxPlayer:
+        bestEval = float("-inf")
+        moves = get_all_moves(position)
+        for move in moves:
+            position.move("{}".format(move))
+            evaluation = minimax(position, depth-1, weight, False, alpha, beta).evaluate(weight)
+            bestEval = max(bestEval, evaluation)
+            if bestEval == evaluation:
+                #find solution to not deepcopy
+                print(position.board)
+                bestPos = deepcopy(position)
+            position.unmove()
+            alpha = max(alpha, bestEval)
+            if beta <= alpha:
+                break
+
+            
+    else:
+        bestEval = float("inf")
+        moves = get_all_moves(position)
+        for move in moves:
+            position.move("{}".format(move))
+            evaluation = minimax(position, depth-1, weight, True, alpha, beta).evaluate(weight)
+            bestEval = min(bestEval, evaluation)
+            if bestEval == evaluation:
+                print(position.board)
+                bestPos = deepcopy(position)
+            position.unmove()
+            beta = min(beta, bestEval)
+            if beta <= alpha:
+                break 
 
     return bestPos
+
 

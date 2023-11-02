@@ -49,13 +49,13 @@ def main():
         '''
 
         if game.board.get_turn() == AI and AI_ON:
-            new_board = minimax(game.get_board(), DEPTH, WEIGHT0)
+            new_board = minimax(game.get_board(), DEPTH, WEIGHT0, True, float("-inf"), float("inf"))
             game.ai_move(new_board)
 
         game.update()
 
         if game.board.get_turn() == PLAYER and AI_VS_AI and AI_ON:
-            new_board = minimax(game.get_board(), DEPTH,WEIGHT1)
+            new_board = minimax(game.get_board(), DEPTH,WEIGHT1, False, float("-inf"), float("inf"))
             game.ai_move(new_board)
 
         game.update()

@@ -1,6 +1,6 @@
 import pygame
 import chess
-from .constants import BROWN, ROWS, BEIGE, SQUARE_SIZE, AI, BLACK, WEIGHT0
+from .constants import BROWN, ROWS, BEIGE, SQUARE_SIZE
 from minimax.evaluate import evaluate
 
 class Board:
