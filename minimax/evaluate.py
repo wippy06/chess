@@ -1,7 +1,6 @@
 from chessFolder.eval_constants import*
 
 def evaluate(weight, board):
-
     pawnAttack = p_attack_black(board)-p_attack_white(board)
 
     pieceSquareTable = 0
@@ -16,7 +15,6 @@ def evaluate(weight, board):
             continue
         pieceValue += piece_value(board,x)
 
-
     for x in board.pieceListWhite:
         if x == "K":
             continue
@@ -24,12 +22,11 @@ def evaluate(weight, board):
     
     result = 0
     resultMult = 1
-
     if board.winner() == "white wins":
-        result = -999999999999999999999999999
+        result = -999999999
         resultMult = 1
     elif board.winner() == "black wins":
-        result = 999999999999999999999999999
+        result =  999999999
         resultMult = 1
     elif board.winner() == "draw":
         resultMult = 0

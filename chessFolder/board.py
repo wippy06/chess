@@ -1,14 +1,15 @@
 import pygame
 import chess
-from .constants import BROWN, ROWS, BEIGE, SQUARE_SIZE
+from .constants import BROWN, BEIGE, SQUARE_SIZE
 from minimax.evaluate import evaluate
+import numpy as np
 
 class Board:
     def __init__(self):
         self.board = chess.Board()
         self.board2D = self.convert_to_2d()
-        self.pieceListWhite = ["R","N","B","Q","K","P"]
-        self.pieceListBlack = ["r","n","b","q","k","p"]
+        self.pieceListWhite = np.array(["R","N","B","Q","K","P"])
+        self.pieceListBlack = np.array(["r","n","b","q","k","p"])
     
     def convert_to_2d(self):
         board_str = str(self.board).replace(" ","").replace("\n","")
@@ -22,9 +23,9 @@ class Board:
         #background colour
         win.fill(BROWN)
         #adding Beige squares in checker board pattern
-        for row in range (ROWS):
+        for row in range (8):
             #row%2 determines if first square is missed out or not
-            for col in range (row % 2, ROWS, 2):
+            for col in range (row % 2, 8, 2):
                 pygame.draw.rect(win, BEIGE, (row*SQUARE_SIZE, col*SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE))
 
     def move(self,move):
@@ -82,16 +83,16 @@ class Board:
     def get_numPieces(self, type):
         #type is piece representation eg "p" for black pawn
         list_of_cords = []
-        for row in range(len(self.board2D)):
-            for col in range(len(self.board2D[row])):
+        for row in range(8):
+            for col in range(8):
                 if self.board2D[row][col] == type:
                     list_of_cords.append([row,col])
         return list_of_cords
     
     def get_num_all_pieces(self):
         num = 0
-        for row in range(len(self.board2D)):
-            for col in range(len(self.board2D[row])):
+        for row in range(8):
+            for col in range(8):
                 if self.board2D[row][col] != "." or self.board2D[row][col] != "p" or self.board2D[row][col] != "P" or self.board2D[row][col] != "k" or self.board2D[row][col] != "K":
                     num+=1
         return num

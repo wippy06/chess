@@ -25,6 +25,6 @@ PLAYER = WHITE
 DEPTH = 3
 
     #weights to calculate eval, 0 is AI, 1 is Player AI
-        #[pieceValue, pieceSquareTable, pawnAttack] 
+        #[pieceValue, pieceSquareTable, pawnAttack, castlingRight] 
 WEIGHT0 = [10, 1, 1]
 WEIGHT1 = [10, 1, 1]
