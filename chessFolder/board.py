@@ -2,14 +2,13 @@ import pygame
 import chess
 from .constants import BROWN, BEIGE, SQUARE_SIZE
 from minimax.evaluate import evaluate
-import numpy as np
 
 class Board:
     def __init__(self):
         self.board = chess.Board()
         self.board2D = self.convert_to_2d()
-        self.pieceListWhite = np.array(["R","N","B","Q","K","P"])
-        self.pieceListBlack = np.array(["r","n","b","q","k","p"])
+        self.pieceListWhite = ["R","N","B","Q","K","P"]
+        self.pieceListBlack = ["r","n","b","q","k","p"]
     
     def convert_to_2d(self):
         board_str = str(self.board).replace(" ","").replace("\n","")

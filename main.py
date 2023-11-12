@@ -32,6 +32,7 @@ def main():
     clock = pygame.time.Clock()
     game = Game(WIN)
 
+    game.update()
  
     while run:
         clock.tick(FPS)
@@ -42,8 +43,7 @@ def main():
             game.ai_move(new_board)
             time_end = time.perf_counter()
             print(time_end - time_start)
-
-        game.update()
+            game.update()
 
         if game.board.get_turn() == PLAYER and AI_VS_AI and AI_ON:
             time_start = time.perf_counter()
@@ -51,8 +51,7 @@ def main():
             game.ai_move(new_board)
             time_end = time.perf_counter()
             print(time_end - time_start)
-
-        game.update()
+            game.update()
         
         if game.winner()!=None:
             print(game.winner())
@@ -69,10 +68,8 @@ def main():
                 row, col = get_row_col_from_mouse(pos)
                 square = get_square_from_row_col(row,col)
                 game.select(square, row, col)
-
-        #draws the board        
-        game.update()
-
+                game.update()   
+        
     pygame.quit()
 
 #runs the main function

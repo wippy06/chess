@@ -45,7 +45,7 @@ def piece_square_table(board, type):
         type =  bishopEvalWhite
     elif type == "Q":
         type =  queenEval
-    elif type == "K" and board.get_num_all_pieces() > 4:
+    elif type == "K" and board.get_num_all_pieces() > endgame:
         type =  kingEvalWhite
     elif type == "P":
         type =  pawnEvalWhite
@@ -57,13 +57,13 @@ def piece_square_table(board, type):
         type =  bishopEvalBlack
     elif type == "q":
         type =  queenEval
-    elif type == "k" and board.get_num_all_pieces() > 4:
+    elif type == "k" and board.get_num_all_pieces() > endgame:
         type =  kingEvalBlack
     elif type == "p":
         type = pawnEvalBlack
-    elif type == "k" and board.get_num_all_pieces() <= 4:
+    elif type == "k" and board.get_num_all_pieces() <= endgame:
         type =  kingEvalEndGameBlack
-    elif type == "K" and board.get_num_all_pieces() <= 4:
+    elif type == "K" and board.get_num_all_pieces() <= endgame:
         type =  kingEvalEndGameWhite
     
     value = 0

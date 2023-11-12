@@ -2,7 +2,7 @@ from copy import deepcopy
 
 def minimax(position, depth, weight, maxPlayer, alpha, beta):
 
-    if position.board.is_check()and depth == 0:
+    if position.board.is_check() and depth == 0:
         depth += 1
 
     if depth == 0 or position.winner() != None:
