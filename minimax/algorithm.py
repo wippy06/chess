@@ -1,9 +1,14 @@
 from copy import deepcopy
 
-def minimax(position, depth, weight, maxPlayer, alpha, beta):
+def minimax(position, depth, weight, maxPlayer, alpha, beta, transpositionTable):
+
+    positionKey = hash(str(position.board))
 
     if position.board.is_check() and depth == 0:
         depth += 1
+
+    if positionKey in transpositionTable:
+        return transpositionTable[positionKey]
 
     if depth == 0 or position.winner() != None:
         return position
@@ -15,7 +20,7 @@ def minimax(position, depth, weight, maxPlayer, alpha, beta):
         moves = get_all_moves(position)
         for move in moves:
             position.move("{}".format(move))
-            evaluation = minimax(position, depth-1, weight, False, alpha, beta).evaluate(weight)
+            evaluation = minimax(position, depth-1, weight, False, alpha, beta, transpositionTable).evaluate(weight)
             bestEval = max(bestEval, evaluation)
             if bestEval == evaluation:
                 bestPos = move
@@ -30,7 +35,7 @@ def minimax(position, depth, weight, maxPlayer, alpha, beta):
         moves = get_all_moves(position)
         for move in moves:
             position.move("{}".format(move))
-            evaluation = minimax(position, depth-1, weight, True, alpha, beta).evaluate(weight)
+            evaluation = minimax(position, depth-1, weight, True, alpha, beta, transpositionTable).evaluate(weight)
             bestEval = min(bestEval, evaluation)
             if bestEval == evaluation:
                 bestPos = move
@@ -43,6 +48,8 @@ def minimax(position, depth, weight, maxPlayer, alpha, beta):
     newPos = deepcopy(position)
     position.unmove()
 
+    transpositionTable[positionKey] = newPos
+    
     return newPos
 
 def get_all_moves(board):
