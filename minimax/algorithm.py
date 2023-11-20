@@ -1,11 +1,8 @@
 from copy import deepcopy
 
-def minimax(position, depth, weight, maxPlayer, alpha, beta, transpositionTable):
+def minimax(position, depth, weight, maxPlayer, alpha, beta, transpositionTable, captureCatch):
 
     positionKey = hash(str(position.board))
-
-    if position.board.is_check() and depth == 0:
-        depth += 1
 
     if positionKey in transpositionTable:
         return transpositionTable[positionKey]
@@ -13,18 +10,27 @@ def minimax(position, depth, weight, maxPlayer, alpha, beta, transpositionTable)
     if depth == 0 or position.winner() != None:
         return position
 
+    newPos = deepcopy(position)
+
     bestPos = None
 
     if maxPlayer:
         bestEval = float("-inf")
-        moves = get_all_moves(position)
+        moves = get_all_moves(newPos)
         for move in moves:
-            position.move("{}".format(move))
-            evaluation = minimax(position, depth-1, weight, False, alpha, beta, transpositionTable).evaluate(weight)
+
+            #if last move was capture or check look ahead another move
+            if ("x" in str(newPos.board.san(move)) or "+" in str(newPos.board.san(move))) and depth == 1 and captureCatch == False:
+                depth += 1
+                captureCatch = True
+
+            newPos.move("{}".format(move))
+            evaluation = minimax(newPos, depth-1, weight, False, alpha, beta, transpositionTable, captureCatch).evaluate(weight)
             bestEval = max(bestEval, evaluation)
             if bestEval == evaluation:
                 bestPos = move
-            position.unmove()
+            newPos.unmove()
+
             alpha = max(alpha, bestEval)
             if beta <= alpha:
                 break
@@ -32,21 +38,26 @@ def minimax(position, depth, weight, maxPlayer, alpha, beta, transpositionTable)
             
     else:
         bestEval = float("inf")
-        moves = get_all_moves(position)
+        moves = get_all_moves(newPos)
         for move in moves:
-            position.move("{}".format(move))
-            evaluation = minimax(position, depth-1, weight, True, alpha, beta, transpositionTable).evaluate(weight)
+
+            #if last move was capture or check look ahead another move
+            if ("x" in str(newPos.board.san(move)) or "+" in str(newPos.board.san(move))) and depth == 1 and captureCatch == False:
+                depth += 1
+                captureCatch = True
+
+            newPos.move("{}".format(move))
+            evaluation = minimax(newPos, depth-1, weight, True, alpha, beta, transpositionTable, captureCatch).evaluate(weight)
             bestEval = min(bestEval, evaluation)
             if bestEval == evaluation:
                 bestPos = move
-            position.unmove()
+            newPos.unmove()
+
             beta = min(beta, bestEval)
             if beta <= alpha:
                 break 
 
-    position.move("{}".format(bestPos))
-    newPos = deepcopy(position)
-    position.unmove()
+    newPos.move("{}".format(bestPos))
 
     transpositionTable[positionKey] = newPos
     

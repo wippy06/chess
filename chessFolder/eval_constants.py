@@ -1,6 +1,6 @@
 pawnValue = 100
 knightValue = 300
-bishopValue = 320
+bishopValue = 350
 rookValue = 500
 queenValue = 900
 
