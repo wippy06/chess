@@ -3,8 +3,22 @@ knightValue = 300
 bishopValue = 350
 rookValue = 500
 queenValue = 900
+kingValue = 0
 
 endgame = 6
+
+piece_values = {
+    "R": rookValue,
+    "r": rookValue,
+    "N": knightValue,
+    "n": knightValue,
+    "B": bishopValue,
+    "b": bishopValue,
+    "Q": queenValue,
+    "q": queenValue,
+    "K": kingValue,
+    "k": kingValue
+}
 
 pawnEvalBlack = [
     [0,  0,  0,  0,  0,  0,  0,  0],
@@ -42,7 +56,7 @@ bishopEvalBlack = [
 bishopEvalWhite = list(reversed(bishopEvalBlack))
 
 rookEvalBlack = [
-    [0, -10, 10, 15, 15, 0, -10, 0],
+    [0, -10, -10, 25, 15, 10, -10, 0],
     [-5, 0, 0, 0, 0, 0, 0, -5],
     [-5, 0, 0, 0, 0, 0, 0, -5],
     [-5, 0, 0, 0, 0, 0, 0, -5],
@@ -63,9 +77,8 @@ queenEval = [
     [-10, 0, 0, 0, 0, 0, 0, -10],
     [-20, -10, -10, -5, -5, -10, -10, -20]
 ]
-
 kingEvalBlack = [
-    [20, 30, 10, 0, 0, 30, 10, 20],
+    [20, 10, 30, 0, 0, 10, 30, 20],
     [20, 20, 0, 0, 0, 0, 20, 20],
     [-10, -20, -20, -20, -20, -20, -20, -10],
     [-20, -30, -30, -40, -40, -30, -30, -20],
@@ -87,3 +100,20 @@ kingEvalEndGameBlack = [
     [-50, -40, -30, -20, -20, -30, -40, -50]
 ]
 kingEvalEndGameWhite = list(reversed(kingEvalEndGameBlack))
+
+piece_evaluations = {
+        "R": rookEvalWhite,
+        "N": knightEval,
+        "B": bishopEvalWhite,
+        "Q": queenEval,
+        "K": kingEvalWhite,
+        "K1":kingEvalEndGameWhite,
+        "P": pawnEvalWhite,
+        "r": rookEvalBlack,
+        "n": knightEval,
+        "b": bishopEvalBlack,
+        "q": queenEval,
+        "k": kingEvalBlack,
+        "k1":kingEvalEndGameBlack,
+        "p": pawnEvalBlack
+    }

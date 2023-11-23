@@ -1,7 +1,7 @@
 import pygame
 from chessFolder.constants import WIDTH,HEIGHT, SQUARE_SIZE, ROWS, PLAYER, AI, AI_ON, AI_VS_AI, DEPTH, WEIGHT0, WEIGHT1
 from chessFolder.game import Game
-from minimax.algorithm import minimax
+from minimaxGPT.algorithm import minimax
 import time
 
 FPS = 60
@@ -41,7 +41,8 @@ def main():
 
         if game.board.get_turn() == AI and AI_ON and game.winner() == None:
             time_start = time.perf_counter()
-            new_board = minimax(game.get_board(), DEPTH, WEIGHT0, True, float("-inf"), float("+inf"), transposisitonTable, False)
+            #new_board = minimax(game.get_board(), DEPTH, WEIGHT0, True, float("-inf"), float("+inf"), transposisitonTable, False)
+            new_board = minimax(game.get_board(), DEPTH, WEIGHT0, transposisitonTable, False)
             time_end = time.perf_counter()
             print(time_end-time_start)
 
@@ -50,7 +51,8 @@ def main():
 
         if game.board.get_turn() == PLAYER and AI_VS_AI and AI_ON and game.winner() == None:
             time_start = time.perf_counter()
-            new_board = minimax(game.get_board(), DEPTH,WEIGHT1, False, float("-inf"), float("+inf"), transposisitonTable, False)
+            #new_board = minimax(game.get_board(), DEPTH, WEIGHT1, False, float("-inf"), float("+inf"), transposisitonTable, False)
+            new_board = minimax(game.get_board(), DEPTH, WEIGHT1, transposisitonTable, False)
             game.ai_move(new_board)
             time_end = time.perf_counter()
             print(time_end - time_start)
