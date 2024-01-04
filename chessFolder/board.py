@@ -1,7 +1,7 @@
 import pygame
 import chess
 from .constants import BROWN, BEIGE, SQUARE_SIZE
-from minimaxGPT.evaluate import evaluate
+from minimax.evaluate import evaluate
 
 class Board:
     def __init__(self):

@@ -25,13 +25,11 @@ def evaluate(weight, board):
     result = 0
     resultMult = 1
     if board.winner() == "white wins":
-        result = -9999999999999999999
-        resultMult = 1
+        return(float("-inf"))
     elif board.winner() == "black wins":
-        result =  9999999999999999999
-        resultMult = 1
+        return(float("inf"))
     elif board.winner() == "draw":
-        resultMult = 0
+        return 0
 
     return (pieceValue*weight[0] + pieceSquareTable*weight[1] + pawnAttack*weight[2] + pieceProtect*weight[3] + result)*resultMult
 
@@ -196,4 +194,4 @@ def piece_protect(board):
 
     #print(-(blackScore-whiteScore))
 
-    return -(blackScore-whiteScore)*50
+    return (blackScore-whiteScore)*50

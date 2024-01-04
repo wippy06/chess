@@ -1,10 +1,14 @@
 from copy import deepcopy
+import time
+from chessFolder.constants import DEPTH
 
 def minimax(position, depth, weight, maxPlayer, alpha, beta, transpositionTable, captureCatch):
+    if depth == DEPTH:
+        time_start = time.perf_counter()
 
     positionKey = hash(str(position.board))
 
-    if positionKey in transpositionTable:
+    if positionKey in transpositionTable and depth != DEPTH:
         return transpositionTable[positionKey]
 
     if depth == 0 or position.winner() != None:
@@ -61,6 +65,10 @@ def minimax(position, depth, weight, maxPlayer, alpha, beta, transpositionTable,
 
     if depth != 1:
         transpositionTable[positionKey] = newPos
+
+    if depth == DEPTH:
+        time_end = time.perf_counter()
+        print(position.board.san(bestPos), position.get_turn(), time_end-time_start)
     
     return newPos
 

@@ -1,7 +1,7 @@
 import pygame
 from chessFolder.constants import WIDTH,HEIGHT, SQUARE_SIZE, ROWS, PLAYER, AI, AI_ON, AI_VS_AI, DEPTH, WEIGHT0, WEIGHT1
 from chessFolder.game import Game
-from minimaxGPT.algorithm import minimax
+from minimax.algorithm import minimax
 import time
 
 FPS = 60
@@ -33,35 +33,40 @@ def main():
 
     game.update()
 
-    transposisitonTable = {}
-    
+    transposisitonTableWhite = {}
+    transposisitonTableBlack = {}
+
+    clock.tick(FPS)
 
     while run:
-        clock.tick(FPS)
 
         if game.board.get_turn() == AI and AI_ON and game.winner() == None:
-            time_start = time.perf_counter()
-            #new_board = minimax(game.get_board(), DEPTH, WEIGHT0, True, float("-inf"), float("+inf"), transposisitonTable, False)
-            new_board = minimax(game.get_board(), DEPTH, WEIGHT0, transposisitonTable, False)
-            time_end = time.perf_counter()
-            print(time_end-time_start)
+            #time_start = time.perf_counter()
+            new_board = minimax(game.get_board(), DEPTH, WEIGHT0, True, float("-inf"), float("+inf"), transposisitonTableBlack, False)
+            #time_end = time.perf_counter()
+            #print(time_end-time_start)
 
             game.ai_move(new_board)
             game.update()
 
         if game.board.get_turn() == PLAYER and AI_VS_AI and AI_ON and game.winner() == None:
-            time_start = time.perf_counter()
-            #new_board = minimax(game.get_board(), DEPTH, WEIGHT1, False, float("-inf"), float("+inf"), transposisitonTable, False)
-            new_board = minimax(game.get_board(), DEPTH, WEIGHT1, transposisitonTable, False)
+            #time_start = time.perf_counter()
+            new_board = minimax(game.get_board(), DEPTH, WEIGHT1, False, float("-inf"), float("+inf"), transposisitonTableWhite, False)          
+            #time_end = time.perf_counter()
+            #print(time_end - time_start)
+
             game.ai_move(new_board)
-            time_end = time.perf_counter()
-            print(time_end - time_start)
             game.update()
         
         if game.winner()!=None:
             print(game.winner())
+            run = False
 
         for event in pygame.event.get():
+
+            if event.type == pygame.KEYDOWN:
+                print(game.board.evaluate(WEIGHT0))
+            
 
             #checks if game is shut down
             if event.type == pygame.QUIT:
