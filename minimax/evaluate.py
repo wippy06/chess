@@ -1,29 +1,7 @@
 from .eval_constants import*
 
 def evaluate(weight, board):
-    pawnAttack = p_attack_black(board)-p_attack_white(board)
 
-    pieceProtect = piece_protect(board)
-
-    pieceSquareTable = 0
-    for x in board.pieceListBlack:
-        pieceSquareTable += piece_square_table(board,x)
-    for x in board.pieceListWhite:
-        pieceSquareTable -= piece_square_table(board,x)
-
-    pieceValue = 0
-    for x in board.pieceListBlack:
-        if x == "k":
-            continue
-        pieceValue += piece_value(board,x)
-
-    for x in board.pieceListWhite:
-        if x == "K":
-            continue
-        pieceValue -= piece_value(board,x)
-    
-    result = 0
-    resultMult = 1
     if board.winner() == "white wins":
         return(float("-inf"))
     elif board.winner() == "black wins":
@@ -31,7 +9,28 @@ def evaluate(weight, board):
     elif board.winner() == "draw":
         return 0
 
-    return (pieceValue*weight[0] + pieceSquareTable*weight[1] + pawnAttack*weight[2] + pieceProtect*weight[3] + result)*resultMult
+    '''
+    pawnAttack = p_attack_black(board)-p_attack_white(board)
+
+    pieceProtect = piece_protect(board)
+    '''
+    pieceSquareTable = 0        
+    pieceValue = 0
+
+    for x in board.pieceListBlack:
+        pieceSquareTable += piece_square_table(board,x)
+        if x == "k":
+            continue
+        pieceValue += piece_value(board,x)
+
+    for x in board.pieceListWhite:
+        pieceSquareTable -= piece_square_table(board,x)
+        if x == "K":
+            continue
+        pieceValue -= piece_value(board,x)
+
+    #return (pieceValue*weight[0] + pieceSquareTable*weight[1] + pawnAttack*weight[2] + pieceProtect*weight[3] + result)*resultMult
+    return pieceValue*weight[0] + pieceSquareTable*weight[1]
 
 def piece_square_table(board, type):
 
@@ -87,7 +86,7 @@ def piece_value(board, type):
     else:
         type = pawnValue
     
-    return len(pieces)*type
+    return int(len(pieces)*type)
 
 def p_attack_black(board):
     attacked = board.get_numPieces("P")

@@ -1,10 +1,7 @@
 from copy import deepcopy
-import time
 from chessFolder.constants import DEPTH
 
 def minimax(position, depth, weight, maxPlayer, alpha, beta, transpositionTable, captureCatch):
-    if depth == DEPTH:
-        time_start = time.perf_counter()
 
     positionKey = hash(str(position.board))
 
@@ -35,6 +32,7 @@ def minimax(position, depth, weight, maxPlayer, alpha, beta, transpositionTable,
 
             alpha = max(alpha, bestEval)
             if beta <= alpha:
+                #print("max")
                 break
 
             
@@ -57,6 +55,7 @@ def minimax(position, depth, weight, maxPlayer, alpha, beta, transpositionTable,
 
             beta = min(beta, bestEval)
             if beta <= alpha:
+                #print("min")
                 break 
 
     position.move("{}".format(bestPos))
@@ -65,14 +64,11 @@ def minimax(position, depth, weight, maxPlayer, alpha, beta, transpositionTable,
 
     if depth != 1:
         transpositionTable[positionKey] = newPos
-
-    if depth == DEPTH:
-        time_end = time.perf_counter()
-        print(position.board.san(bestPos), position.get_turn(), time_end-time_start)
     
     return newPos
 
 def get_all_moves(board):
+    
     moves = []
     moveRate0 = []
     moveRate1 = []
@@ -96,6 +92,20 @@ def get_all_moves(board):
             moveRate4.append(move)
         else:
             moveRate5.append(move)
-    moves = [*moveRate0, *moveRate1, *moveRate2, *moveRate3, *moveRate4, *moveRate5]
 
+    #moves = [*moveRate5, *moveRate4, *moveRate3, *moveRate2, *moveRate1, *moveRate0]
+ 
+    if moveRate0 !=[]:
+        moves[0:0] = moveRate0
+    if moveRate1 !=[]:
+        moves[0:0] = moveRate1
+    if moveRate2 !=[]:
+        moves[0:0] = moveRate2
+    if moveRate3 !=[]:
+        moves[0:0] = moveRate3
+    if moveRate4 !=[]:
+        moves[0:0] = moveRate4
+    if moveRate5 !=[]:
+        moves[0:0] = moveRate5
+ 
     return moves

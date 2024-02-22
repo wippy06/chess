@@ -38,7 +38,11 @@ class Board:
     def draw(self,win):
         self.draw_squares(win)
 
-        for x in [*self.pieceListWhite, *self.pieceListBlack]:
+        pieceItems = []
+        pieceItems[0:0] = self.pieceListWhite
+        pieceItems[0:0] = self.pieceListBlack
+
+        for x in pieceItems:
             if x.isupper():
                 y="_"
             else:

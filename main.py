@@ -1,7 +1,7 @@
 import pygame
 from chessFolder.constants import WIDTH,HEIGHT, SQUARE_SIZE, ROWS, PLAYER, AI, AI_ON, AI_VS_AI, DEPTH, WEIGHT0, WEIGHT1
 from chessFolder.game import Game
-from minimax.algorithm import minimax
+from minimax.algorithm import minimax, get_all_moves
 import time
 
 FPS = 60
@@ -41,19 +41,19 @@ def main():
     while run:
 
         if game.board.get_turn() == AI and AI_ON and game.winner() == None:
-            #time_start = time.perf_counter()
+            time_start = time.perf_counter()
             new_board = minimax(game.get_board(), DEPTH, WEIGHT0, True, float("-inf"), float("+inf"), transposisitonTableBlack, False)
-            #time_end = time.perf_counter()
-            #print(time_end-time_start)
+            time_end = time.perf_counter()
+            print(time_end-time_start)
 
             game.ai_move(new_board)
             game.update()
 
         if game.board.get_turn() == PLAYER and AI_VS_AI and AI_ON and game.winner() == None:
-            #time_start = time.perf_counter()
+            time_start = time.perf_counter()
             new_board = minimax(game.get_board(), DEPTH, WEIGHT1, False, float("-inf"), float("+inf"), transposisitonTableWhite, False)          
-            #time_end = time.perf_counter()
-            #print(time_end - time_start)
+            time_end = time.perf_counter()
+            print(time_end - time_start)
 
             game.ai_move(new_board)
             game.update()
@@ -65,7 +65,7 @@ def main():
         for event in pygame.event.get():
 
             if event.type == pygame.KEYDOWN:
-                print(game.board.evaluate(WEIGHT0))
+                print(get_all_moves(game.get_board()))
             
 
             #checks if game is shut down

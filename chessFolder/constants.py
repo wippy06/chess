@@ -1,5 +1,3 @@
-import pygame
-
 #size constants
 WIDTH, HEIGHT = 800,800
 ROWS = 8
@@ -16,8 +14,8 @@ BEIGE = (252,227,173)
 BROWN = (107, 34, 0)
 
 #AI
-AI_ON = False
-AI_VS_AI = True
+AI_ON = True
+AI_VS_AI = False
 AI = BLACK
 PLAYER = WHITE
 DEPTH = 3
