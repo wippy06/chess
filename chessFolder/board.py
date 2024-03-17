@@ -81,8 +81,7 @@ class Board:
             if str(x)[0] == square[0] and str(x)[1] == square[1]:
                 moves.append(x)
         return moves
-
-    
+ 
     def get_numPieces(self, type):
         #type is piece representation eg "p" for black pawn
         list_of_cords = []

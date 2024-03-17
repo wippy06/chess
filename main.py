@@ -44,7 +44,7 @@ def main():
             time_start = time.perf_counter()
             new_board = minimax(game.get_board(), DEPTH, WEIGHT0, True, float("-inf"), float("+inf"), transposisitonTableBlack, False)
             time_end = time.perf_counter()
-            print(time_end-time_start)
+            print(time_end-time_start, new_board.board.peek())
 
             game.ai_move(new_board)
             game.update()
@@ -53,13 +53,14 @@ def main():
             time_start = time.perf_counter()
             new_board = minimax(game.get_board(), DEPTH, WEIGHT1, False, float("-inf"), float("+inf"), transposisitonTableWhite, False)          
             time_end = time.perf_counter()
-            print(time_end - time_start)
+            print(time_end - time_start, new_board.board.peek())
 
             game.ai_move(new_board)
             game.update()
         
         if game.winner()!=None:
             print(game.winner())
+            print(game.board.board)
             run = False
 
         for event in pygame.event.get():

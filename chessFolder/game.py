@@ -1,5 +1,5 @@
 import pygame
-from .constants import BLUE, SQUARE_SIZE, WEIGHT0
+from .constants import BLUE, SQUARE_SIZE
 from .board import Board
 
 class Game:
