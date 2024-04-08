@@ -29,8 +29,8 @@ def evaluate(weight, board):
             continue
         pieceValue -= piece_value(board,x)
 
-    return (pieceValue*weight[0] + pieceSquareTable*weight[1] + pawnAttack*weight[2] + pieceProtect*weight[3])
-    #return pieceValue*weight[0] + pieceSquareTable*weight[1]
+    #return (pieceValue*weight[0] + pieceSquareTable*weight[1] + pawnAttack*weight[2] + pieceProtect*weight[3])
+    return pieceValue*weight[0] + pieceSquareTable*weight[1]
 
 def piece_square_table(board, type):
 

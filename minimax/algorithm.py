@@ -17,12 +17,12 @@ def minimax(position, depth, weight, maxPlayer, alpha, beta, transpositionTable,
         bestEval = float("-inf")
         moves = get_all_moves(position)
         for move in moves:
-
+            '''
             #if last move was capture or check look ahead another move
             if ("x" in str(position.board.san(move)) or "+" in str(position.board.san(move))) and depth == 1 and captureCatch == False:
                 depth += 1
                 captureCatch = True
-
+            '''
             position.move("{}".format(move))
             evaluation = minimax(position, depth-1, weight, False, alpha, beta, transpositionTable, captureCatch).evaluate(weight)
             bestEval = max(bestEval, evaluation)
@@ -40,11 +40,12 @@ def minimax(position, depth, weight, maxPlayer, alpha, beta, transpositionTable,
         bestEval = float("inf")
         moves = get_all_moves(position)
         for move in moves:
-
+            '''
             #if last move was capture or check look ahead another move
             if ("x" in str(position.board.san(move)) or "+" in str(position.board.san(move))) and depth == 1 and captureCatch == False:
                 depth += 1
                 captureCatch = True
+            '''
 
             position.move("{}".format(move))
             evaluation = minimax(position, depth-1, weight, True, alpha, beta, transpositionTable, captureCatch).evaluate(weight)
