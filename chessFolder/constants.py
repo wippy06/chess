@@ -15,8 +15,8 @@ BROWN = (107, 34, 0)
 
 #AI
 AI_ON = True
-AI_VS_AI = True
+AI_VS_AI = False
 AI = BLACK
 PLAYER = WHITE
 DEPTH = 3
-LEARN = True
+LEARN = False

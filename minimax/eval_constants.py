@@ -1,8 +1,8 @@
-pawnValue = 100
-knightValue = 300
-bishopValue = 350
-rookValue = 500
-queenValue = 900
+pawnValue = 10
+knightValue = 30
+bishopValue = 35
+rookValue = 50
+queenValue = 90
 kingValue = 0
 
 endgame = 6

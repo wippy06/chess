@@ -8,11 +8,10 @@ def evaluate(weight, board):
         return(float("inf"))
     elif board.winner() == "draw":
         return 0
+ 
+    #pawnAttack = p_attack_black(board)-p_attack_white(board)
 
-    
-    pawnAttack = p_attack_black(board)-p_attack_white(board)
-
-    pieceProtect = piece_protect(board)
+    #pieceProtect = piece_protect(board)
     
     pieceSquareTable = 0        
     pieceValue = 0
